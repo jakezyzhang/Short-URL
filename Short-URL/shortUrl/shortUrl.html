@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>长链接转短链接</title>
+		<link rel="stylesheet" href="../layui/css/layui.css">
+		<script src="../layui/layui.js"></script>
+		<script src="shortUrl.js"></script>
+		<!-- <script src="../jQuery/jquery.js"></script>
+		<script src="../jQuery/jquery.min.js"></script> -->
+	</head>
+	<body>
+
+		<div class="layui-tab">
+			<ul class="layui-tab-title">
+				<li class="layui-this">自动生成短链接</li>
+				<li>指定的值生成短链接</li>
+				<li>访问数据查询</li>
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<form class="layui-form" action="">
+						<div class="layui-form-item">
+							<div class="layui-input-block layui-col-md6">
+								<input type="text" name="url" id="url" lay-verify="required|url" placeholder="请输入长链接" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button class="layui-btn" lay-submit lay-filter="submit">立即提交</button>
+								<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!--  -->
+				<div class="layui-tab-item">
+					<form class="layui-form" action="">
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<input type="text" name="appointurl" id="appointurl" required lay-verify="required|url" placeholder="请输入长链接"
+								 autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label"></label>
+							<div class="layui-input-inline">
+								<input type="text" name="shortUrl" required lay-verify="required|tag" placeholder="请输入要设置的字符串" autocomplete="off"
+								 class="layui-input">
+							</div>
+							<div class="layui-form-mid layui-word-aux">4~16个字符长度的数字、字母</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button class="layui-btn" lay-submit lay-filter="appointsubmit">立即提交</button>
+								<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!--  -->
+				<div class="layui-tab-item">
+					<form class="layui-form" action="">
+						<div class="layui-form-item">
+							<div class="layui-input-block layui-col-md6">
+								<input type="text" name="countShortUrl" id="countShortUrl" lay-verify="required" placeholder="请输入需要查询的短链接" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button class="layui-btn" lay-submit lay-filter="countsubmit">立即提交</button>
+								<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">访问次数</label>
+							<div class="layui-input-inline">
+								<input type="text" name="count" id="count" placeholder="" disabled="disabled"
+								 autocomplete="off" class="layui-input">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</body>
+</html>
