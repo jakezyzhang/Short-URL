@@ -35,8 +35,9 @@
         </set>
         WHERE id=#{id}
     </update>
-    <select id="getCountByShortUrl" resultType="java.lang.Integer" >
-        SELECT count
+    <select id="getCountByShortUrl" resultType="com.zzy.shorturl.entity.ShortUrl">
+        SELECT id, short_url, url, count,
+        create_time, last_edit_time
         FROM tb_url
         WHERE short_url=#{shortUrl}
     </select>

@@ -36,5 +36,5 @@ public interface ShortUrlDao {
      * @param shortUrl
      * @return
      */
-    int getCountByShortUrl(String shortUrl);
+    ShortUrl getCountByShortUrl(String shortUrl);
 }

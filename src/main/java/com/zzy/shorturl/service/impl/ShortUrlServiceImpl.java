@@ -18,6 +18,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         if (shortUrl.getUrl() != null && !"".equals(shortUrl.getUrl())){
             shortUrl.setCreateTime(new Date());
             shortUrl.setLastEditTime(new Date());
+            shortUrl.setCount(0);
             try {
                 int effectedNum = shortUrlDao.insertShortUrl(shortUrl);
                 if (effectedNum > 0){
@@ -71,11 +72,16 @@ public class ShortUrlServiceImpl implements ShortUrlService {
     }
 
     @Override
-    public int getCountByShortUrl(String shortUrl) {
+    public ShortUrl getCountByShortUrl(String shortUrl) {
         if (shortUrl == null){
-            return 0;
+            return null;
         }
-
-        return shortUrlDao.getCountByShortUrl(shortUrl);
+        int n = shortUrl.lastIndexOf("/s/");
+        if (n == -1){
+            return null;
+        }
+        String sub = shortUrl.substring(shortUrl.lastIndexOf("/s/")+3, shortUrl.length());
+        System.out.println(sub);
+        return shortUrlDao.getCountByShortUrl(sub);
     }
 }

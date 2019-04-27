@@ -4,10 +4,7 @@ import com.zzy.shorturl.api.StringGeneratorRandom;
 import com.zzy.shorturl.entity.ShortUrl;
 import com.zzy.shorturl.service.ShortUrlService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
@@ -15,6 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/s")
+@CrossOrigin
 public class ShortUrlController {
     @Autowired
     private ShortUrlService shortUrlService;
@@ -24,7 +22,8 @@ public class ShortUrlController {
      * @param shortUrl
      * @return
      */
-    @RequestMapping(value = "/getshorturl", method = RequestMethod.GET)
+    @RequestMapping(value = "/getshorturl", method = RequestMethod.POST)
+    @ResponseBody
     private Map<String, Object> getShortUrl(ShortUrl shortUrl){
         Map<String, Object> modelMap = new HashMap<String, Object>();
         if (shortUrlService.getShortUrlByUrl(shortUrl.getUrl()) != null){
@@ -38,7 +37,7 @@ public class ShortUrlController {
         stringGeneratorRandom.setLength(4);
         String sUrl = stringGeneratorRandom.generate(String.valueOf(urlId));
         shortUrl.setShortUrl(sUrl);
-        shortUrl.setCount(0);
+        System.out.println(shortUrl.getUrl());
         boolean flag = shortUrlService.modifyShortUrl(shortUrl);
         if (flag == true){
             String newResult = shortUrlService.getShortUrlByUrl(shortUrl.getUrl()).getShortUrl();
@@ -54,14 +53,17 @@ public class ShortUrlController {
      * @param shortUrl
      * @return
      */
-    @RequestMapping(value = "/appointshorturl", method = RequestMethod.GET)
+    @RequestMapping(value = "/appointshorturl", method = RequestMethod.POST)
+    @ResponseBody
     public Map<String, Object>appointShortUrl(ShortUrl shortUrl){
         Map<String, Object>modelMap = new HashMap<String, Object>();
         boolean result = shortUrlService.addUrl(shortUrl);
         if (result == true){
              modelMap.put("shortUrl", shortUrl.getShortUrl());
+        }else {
+            modelMap.put("result", false);
         }
-        modelMap.put("result", false);
+
         return modelMap;
     }
 
@@ -77,16 +79,22 @@ public class ShortUrlController {
             sum = url.getCount() + 1;
             url.setCount(sum);
             shortUrlService.modifyShortUrl(url);
-            mv.setViewName("redirect:http://" + url.getUrl());
+            mv.setViewName("redirect:" + url.getUrl());
             return mv;
         }
     }
 
-    @RequestMapping(value = "/getcount", method = RequestMethod.GET)
-    public Map<String, Object>getCountByShortUrl(String shortUrl){
+    @RequestMapping(value = "/getcount", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object>getCountByShortUrl(ShortUrl shortUrl){
         Map<String, Object> modelMap = new HashMap<String, Object>();
-        int count = shortUrlService.getCountByShortUrl(shortUrl);
-        modelMap.put("count", count);
+        String sUrl = shortUrl.getShortUrl();
+        ShortUrl countByShortUrl = shortUrlService.getCountByShortUrl(sUrl);
+        if (countByShortUrl == null){
+            modelMap.put("result", "未生成此短链接");
+        }else {
+            modelMap.put("result", countByShortUrl);
+        }
         return modelMap;
     }
 }
