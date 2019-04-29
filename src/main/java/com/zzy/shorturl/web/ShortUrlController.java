@@ -57,6 +57,11 @@ public class ShortUrlController {
     @ResponseBody
     public Map<String, Object>appointShortUrl(ShortUrl shortUrl){
         Map<String, Object>modelMap = new HashMap<String, Object>();
+        ShortUrl existenceShort =  shortUrlService.getUrlbyShortUrl(shortUrl.getShortUrl());
+        if(existenceShort != null){
+            modelMap.put("result", "existence");
+            return modelMap;
+        }
         boolean result = shortUrlService.addUrl(shortUrl);
         if (result == true){
              modelMap.put("shortUrl", shortUrl.getShortUrl());
